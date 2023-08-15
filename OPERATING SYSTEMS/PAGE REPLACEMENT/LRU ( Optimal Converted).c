@@ -1,3 +1,4 @@
+//c program for lru 
 #include <stdio.h>
 #include <stdbool.h>
 int miss=-1;
