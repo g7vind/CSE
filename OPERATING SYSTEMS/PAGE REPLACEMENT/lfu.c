@@ -1,91 +1,76 @@
 #include <stdio.h>
 #include <stdbool.h>
-int miss = -1;
-bool search(int frame_size, int frame[], int key)
-{
-    for (int i = 0; i < frame_size; i++)
-    {
-        if (frame[i] == key)
-            return true;
-    }
-    return false;
-}
 
-int lfu(int frame_size, int frame[], int current[], int freq[])
+int findLFUIndex(int frame_no, int freq[], int current[])
 {
-    int u = -1, i;
-    int minfrq = freq[0];
-    for (i = 0; i < frame_size; i++)
+    int lfuIndex = 0;
+    int minFreq = freq[0];
+
+    for (int j = 1; j < frame_no; j++)
     {
-        if (freq[i] < minfrq || freq[i] == minfrq && current[i] < current[u])
+        if (freq[j] < minFreq || (freq[j] == minFreq && current[j] < current[lfuIndex]))
         {
-            u = i;
-            minfrq = freq[i];
+            minFreq = freq[j];
+            lfuIndex = j;
         }
     }
-    return u;
+
+    return lfuIndex;
 }
 
 int main()
 {
-    int frame_no, page_no, frame[50], page[50], freq[20], current[30], pageFaultCnt = 0;
-    printf("\nEnter the number of frames: ");
+    int frame_no, page_no, frame[50], page[50], freq[50], current[50], pageFaultCnt = 0, miss = -1;
+    printf("Enter the number of frames: ");
     scanf("%d", &frame_no);
-    printf("\nEnter the number of pages: ");
+    printf("Enter the number of pages: ");
     scanf("%d", &page_no);
-    printf("\nEnter the reference string: ");
+    printf("Enter the reference string: ");
     for (int i = 0; i < page_no; i++)
         scanf("%d", &page[i]);
     for (int i = 0; i < frame_no; i++)
     {
         frame[i] = -1;
         freq[i] = 0;
+        current[i] = -1;
     }
     for (int i = 0; i < page_no; i++)
     {
         printf("Pages in frame --> ");
-        if (!search(frame_no, frame, page[i]))
+        bool found = false;
+        int lfuIndex = 0;
+        for (int j = 0; j < frame_no; j++)
         {
-            miss++;
+            if (frame[j] == page[i])
+            {
+                freq[j]++;
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
             pageFaultCnt++;
+            miss++;
             if (miss < frame_no)
             {
-                freq[miss] = 1;
-                frame[miss] = page[i];
-                current[miss] = i;
+                lfuIndex = miss;
             }
             else
             {
-                int j = lfu(frame_no, frame, current, freq);
-                frame[j] = page[i];
-                freq[j] = 1;
-                current[j] = i;
+                lfuIndex = findLFUIndex(frame_no, freq, current);
             }
-            for (int j = 0; j < frame_no; j++)
-            {
-                if (frame[j] != -1)
-                    printf("%d ", frame[j]);
-            }
-            printf("\n");
+            frame[lfuIndex] = page[i];
+            freq[lfuIndex] = 1;
+            current[lfuIndex] = i;
         }
-        else
+        for (int j = 0; j < frame_no; j++)
         {
-            for (int j = 0; j < frame_no; j++)
-            {
-                if (frame[j] == page[i])
-                {
-                    freq[j]++;
-                }
-            }
-            for (int j = 0; j < frame_no; j++)
-            {
-                if (frame[j] != -1)
-                    printf("%d ", frame[j]);
-            }
-            printf("\n");
+            if (frame[j] != -1)
+                printf("%d ", frame[j]);
         }
+        printf("\n");
     }
     printf("\nTotal number of page faults: %d\n", pageFaultCnt);
-
     return 0;
 }
