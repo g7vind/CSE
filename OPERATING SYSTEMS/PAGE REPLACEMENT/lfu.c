@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <limits.h> // For INT_MAX
-
 int miss = -1;
-
 bool search(int frame_size, int frame[], int key)
 {
     for (int i = 0; i < frame_size; i++)
