@@ -1,0 +1,2 @@
+00	ALPHA
+23	BETA
