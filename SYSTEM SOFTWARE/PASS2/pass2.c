@@ -16,7 +16,7 @@ void main()
         strcpy(start,operand);
         fscanf(flen,"%d",&len);
     }
-    printf("H^%s^00%s^00%d\nT^00%s^00%d^",label,start,len,start,len);
+    printf("H^%s^00%s^00%d\nT^00%s^00%d",label,start,len,start,len);
     fscanf(fint,"%s%s%s%s",addr,label,opcode,operand);
     while(strcmp(opcode,"END")!=0)
     {
@@ -31,7 +31,7 @@ void main()
                 {
                     if(strcmp(operand,symtab)==0)
                     {
-                        printf("%s%s^",op,symaddr);
+                        printf("^%s%s",op,symaddr);
                         break;
                     }
                     fscanf(fsym,"%s%s",symtab,symaddr);
@@ -44,10 +44,11 @@ void main()
         if((strcmp(opcode,"BYTE")==0) || (strcmp(opcode,"WORD"))==0)
         {
             if(strcmp(opcode,"WORD")==0)
-                printf("00000%s^",operand);
+                printf("^00000%s",operand);
             if(strcmp(opcode,"BYTE")==0)
             {
                 len=strlen(operand);
+                printf("^");
                 for(int i=2;i<len-1;i++)
                     printf("%c",operand[i]);
             }
