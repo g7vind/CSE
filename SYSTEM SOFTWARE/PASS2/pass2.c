@@ -25,7 +25,7 @@ void main()
         {
             if(strcmp(opcode,code)==0)
             {
-                fclose(fop);
+                rewind(fop);
                 fscanf(fsym,"%s%s",symtab,symaddr);
                 while(!feof(fsym))
                 {
