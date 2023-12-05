@@ -9,4 +9,3 @@
 1022	C1	RESB	1
 1023	C2	BYTE	C'ABC'
 1026	**	END	**
-the length of the program is:26
