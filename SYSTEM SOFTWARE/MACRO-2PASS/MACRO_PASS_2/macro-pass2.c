@@ -36,7 +36,6 @@ void main()
                 rewind(f2);
                 rewind(f4);
                 fscanf(f3, "%s%s", mne1, opnd1);
-                fprintf(f5, ".\t%s\t%s\n", mne1, opnd);
                 fscanf(f3, "%s%s", mne1, opnd1);
                 while (strcmp(mne1, "MEND") != 0)
                 {
