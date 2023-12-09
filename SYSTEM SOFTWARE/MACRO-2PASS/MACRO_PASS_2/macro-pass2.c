@@ -54,7 +54,7 @@ void main()
         }
         fscanf(finput, "%s%s%s", la, mne, opnd);
     }
-    fprintf(fexpTab, "%s\t%s\t%s\n", la, mne, opnd);
+    fprintf(fexpTab, "%s\t%s\t%s", la, mne, opnd);
     fclose(finput);
     fclose(fnamTab);
     fclose(fdefTab);
