@@ -53,13 +53,10 @@ void main()
 					}
 					rewind(fdef);
 					fscanf(fdef,"%s%s",def1,def2);
-                    printf("def1 = %s\tdef2 = %s\n",def1,def2);
                     while (!feof(fdef))
                     {
-                        printf("la = %s\tdef1 = %s\n",la,def1);
                         if(strcmp(def1,la)==0)
                         {
-                            printf("Inside if \n");
                             fscanf(fdef,"%s\t%s",def1,def2);
                             rewind(farg);
                             fscanf(farg,"%s",arg);

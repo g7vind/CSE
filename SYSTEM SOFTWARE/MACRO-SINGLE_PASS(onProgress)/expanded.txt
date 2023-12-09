@@ -1,7 +1,7 @@
 SAMPLE	START	1000
--	LDA	U
--	STA	V
--	STB	W
+-	LDA	N1
+-	STA	N2
+-	STB	N3
 -	LDA	P
 -	STA	Q
 -	STB	Z
