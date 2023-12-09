@@ -1,4 +1,9 @@
-EX1	&A,&B
+EX1	&A,&B,&C
 LDA	&A
 STA	&B
-MEND
+STB	&C
+MEND **
+EX2	&D,&C
+LDCH	&D
+STCH	&C
+MEND **
