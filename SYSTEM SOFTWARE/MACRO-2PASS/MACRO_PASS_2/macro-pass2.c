@@ -4,38 +4,21 @@
 void main()
 {
     FILE *f1, *f2, *f3, *f4, *f5;
-    int len, i, pos = 1;
-    char
-        arg[20],
-        mne[20], opnd[20], la[20], name[20],
-        mne1[20], opnd1[20], pos1[10], pos2[10];
-    f1 = fopen("input.txt", "r");
-    f2 = fopen("namtab.txt", "w+");
-    f3 = fopen("deftab.txt", "w+");
-    f4 = fopen("argtab.txt", "w+");
-    f5 = fopen("op.txt", "w+");
+    int i, len;
+    char mne[20], opnd[20], la[20], name[20], mne1[20], opnd1[20], arg[20];
+    f1 = fopen("minp2.txt", "r");
+    f2 = fopen("ntab2.txt", "r");
+    f3 = fopen("dtab2.txt", "r");
+    f4 = fopen("atab2.txt", "w+");
+    f5 = fopen("op2.txt", "w");
     fscanf(f1, "%s%s%s", la, mne, opnd);
     while (strcmp(mne, "END") != 0)
     {
         if (strcmp(mne, "MACRO") == 0)
         {
-            fprintf(f2, "%s\n", la);
-            rewind(f2);
-            fprintf(f3, "%s\t%s\n", la, opnd);
             fscanf(f1, "%s%s%s", la, mne, opnd);
             while (strcmp(mne, "MEND") != 0)
-            {
-                if (opnd[0] == '&')
-                {
-                    (pos, pos1, 5);
-                    strcpy(pos2, "?");
-                    strcpy(opnd, strcat(pos2, pos1));
-                    pos = pos + 1;
-                }
-                fprintf(f3, "%s\t%s\n", mne, opnd);
                 fscanf(f1, "%s%s%s", la, mne, opnd);
-            }
-            fprintf(f3, "%s", mne);
         }
         else
         {
@@ -50,14 +33,14 @@ void main()
                     else
                         fprintf(f4, "\n");
                 }
-                rewind(f3);
+                rewind(f2);
                 rewind(f4);
                 fscanf(f3, "%s%s", mne1, opnd1);
                 fprintf(f5, ".\t%s\t%s\n", mne1, opnd);
                 fscanf(f3, "%s%s", mne1, opnd1);
                 while (strcmp(mne1, "MEND") != 0)
                 {
-                    if ((opnd[0] == '?'))
+                    if ((opnd1[0] == '&'))
                     {
                         fscanf(f4, "%s", arg);
                         fprintf(f5, "-\t%s\t%s\n", mne1, arg);
@@ -72,11 +55,11 @@ void main()
         }
         fscanf(f1, "%s%s%s", la, mne, opnd);
     }
-    fprintf(f5, "%s\t%s\t%s", la, mne, opnd);
+    fprintf(f5, "%s\t%s\t%s\n", la, mne, opnd);
     fclose(f1);
     fclose(f2);
     fclose(f3);
     fclose(f4);
     fclose(f5);
-    printf("Successfull !!! \n");
+    printf("Pass 2 is successful");
 }

@@ -1,8 +1,0 @@
-PGM	START	0
-.	ABC	P,Q
-*	STA	P
-*	STB	Q
-.	ABC	R,S
-*	STA	R
-*	STB	S
-*	END	*
