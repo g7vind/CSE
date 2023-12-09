@@ -1,0 +1,9 @@
+EX1	&A,&B,&C
+LDA	?1
+STA	?2
+STB	?3
+MEND	**
+EX2	&D,&C
+LDCH	?4
+STCH	?5
+MEND	**
