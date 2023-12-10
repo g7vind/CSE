@@ -4,88 +4,88 @@
 void main()
 {
 	char label[10],opcode[10],operand[10],la[10],arg[10],def1[10],def2[10];
-	FILE *fin,*fe,*fn,*fdef,*farg;
+	FILE *finput,*fexpTab,*fnamTab,*fdefTab,*fargTab;
 	int in=1,i,flag=0;
-	fin=fopen("minp2.txt","r");
-	fe=fopen("expanded.txt","w+");
-	fn=fopen("namtab.txt","w+");
-	fdef=fopen("definition.txt","w+");
-	farg=fopen("argtab.txt","w+");
-	fscanf(fin,"%s%s%s",label,opcode,operand);
-	while(!feof(fin))
+	finput=fopen("minp2.txt","r");
+	fexpTab=fopen("expanded.txt","w+");
+	fnamTab=fopen("namtab.txt","w+");
+	fdefTab=fopen("definition.txt","w+");
+	fargTab=fopen("argtab.txt","w+");
+	fscanf(finput,"%s%s%s",label,opcode,operand);
+	while(!feof(finput))
 	{	
 		if(strcmp(opcode,"MACRO")==0)
 		{
-			fprintf(fn,"%s\n",label);
-			fprintf(fdef,"%s\t%s\n",label,operand);
-			fscanf(fin,"%s%s%s",label,opcode,operand);
+			fprintf(fnamTab,"%s\n",label);
+			fprintf(fdefTab,"%s\t%s\n",label,operand);
+			fscanf(finput,"%s%s%s",label,opcode,operand);
 			while(strcmp(opcode,"MEND")!=0)
 			{
 			if(operand[0]=='&')
 			{
-				fprintf(fdef,"%s\t?%d\n",opcode,in);
+				fprintf(fdefTab,"%s\t?%d\n",opcode,in);
 				in++;
 			}
 			else
-				fprintf(fdef,"%s\t%s\n",opcode,operand);
-			fscanf(fin,"%s%s%s",label,opcode,operand);
+				fprintf(fdefTab,"%s\t%s\n",opcode,operand);
+			fscanf(finput,"%s%s%s",label,opcode,operand);
 			}
-			fprintf(fdef,"%s\t**\n",opcode);
+			fprintf(fdefTab,"%s\t**\n",opcode);
 		}
 		else
 		{
-			rewind(fn);
-			fscanf(fn,"%s",la);
-			while(!feof(fn))
+			rewind(fnamTab);
+			fscanf(fnamTab,"%s",la);
+			while(!feof(fnamTab))
 			{	
 				if(strcmp(la,opcode)==0)
 				{
 					flag=1;
-                    freopen("argtab.txt","w+",farg);
+                    freopen("argtab.txt","w+",fargTab);
 					for(i=0;i<strlen(operand);i++)
 					{
 						if(operand[i]!=','){
                             
-							fprintf(farg,"%c",operand[i]);
+							fprintf(fargTab,"%c",operand[i]);
                     }
                         else
-                            fprintf(farg,"\n");
+                            fprintf(fargTab,"\n");
 					}
-					rewind(fdef);
-					fscanf(fdef,"%s%s",def1,def2);
-                    while (!feof(fdef))
+					rewind(fdefTab);
+					fscanf(fdefTab,"%s%s",def1,def2);
+                    while (!feof(fdefTab))
                     {
                         if(strcmp(def1,la)==0)
                         {
-                            fscanf(fdef,"%s\t%s",def1,def2);
-                            rewind(farg);
-                            fscanf(farg,"%s",arg);
+                            fscanf(fdefTab,"%s\t%s",def1,def2);
+                            rewind(fargTab);
+                            fscanf(fargTab,"%s",arg);
                             while(strcmp(def1,"MEND")!=0)
                             {
-                                fprintf(fe,"-\t%s\t%s\n",def1,arg);
-                                fscanf(fdef,"%s%s",def1,def2);
-                                fscanf(farg,"%s",arg);
+                                fprintf(fexpTab,"-\t%s\t%s\n",def1,arg);
+                                fscanf(fdefTab,"%s%s",def1,def2);
+                                fscanf(fargTab,"%s",arg);
                             }
                             break;
                         }
-                        fscanf(fdef,"%s\t%s",def1,def2);
+                        fscanf(fdefTab,"%s\t%s",def1,def2);
                     }
 				}
-				fscanf(fn,"%s",la);
+				fscanf(fnamTab,"%s",la);
 			}
 			if(flag==0)
 			{
-				fprintf(fe,"%s\t%s\t%s\n",label,opcode,operand);
+				fprintf(fexpTab,"%s\t%s\t%s\n",label,opcode,operand);
 			}
 			flag=0;
 		}	
-		fscanf(fin,"%s%s%s",label,opcode,operand);
+		fscanf(finput,"%s%s%s",label,opcode,operand);
 	}
-    fprintf(fe,"%s\t%s\t%s\n",label,opcode,operand);
+    fprintf(fexpTab,"%s\t%s\t%s\n",label,opcode,operand);
     printf("Single Pass macro processor successful\n");
-	fclose(fin);
-	fclose(fn);
-	fclose(fdef);
-	fclose(fe);
-	fclose(farg);
+	fclose(finput);
+	fclose(fnamTab);
+	fclose(fdefTab);
+	fclose(fexpTab);
+	fclose(fargTab);
 }
