@@ -25,8 +25,10 @@ void main() {
         else {
             rewind(fnamTab);
             fscanf(fnamTab, "%s", name);
-            while (!feof(fnamTab)) {
-                if (strcmp(mne, name) == 0) {
+            while (!feof(fnamTab))
+            {
+                if (strcmp(mne, name) == 0) 
+                {
                     flag = 1;
                     freopen("atab2.txt", "w+", fargTab);
                     len = strlen(opnd);
