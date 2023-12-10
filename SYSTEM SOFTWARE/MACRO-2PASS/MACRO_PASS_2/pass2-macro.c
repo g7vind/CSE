@@ -41,7 +41,8 @@ void main() {
                     rewind(fnamTab);
                     rewind(fargTab);
                     rewind(fdefTab);
-                    while (fscanf(fdefTab, "%s%s", mne1, opnd1) != EOF) {
+                    while (fscanf(fdefTab, "%s%s", mne1, opnd1) != EOF) 
+                    {
                         if(strcmp(mne1,name)==0){
                             fscanf(fdefTab, "%s%s", mne1, opnd1);
                             while(strcmp(mne1, "MEND") != 0){
