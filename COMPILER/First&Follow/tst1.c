@@ -42,8 +42,6 @@ void addToFirstSet(nonTerminal nt[], char lhs, char rhs, int count) {
     }
 }
 
-
-
 void printFirstSet(nonTerminal nt[], int count) {
     for (int i = 0; i < count; i++) {
         printf("First(%c) = {", nt[i].nonTerminal);
@@ -84,9 +82,10 @@ void parseProduction(production prod, nonTerminal nt[], int nonTerminalCount, in
         int rhsIndex = findNonTerminalIndex(nt, nonTerminalCount, prod.rhs[index]);
         if (rhsIndex != -1) {
             for (int j = 0; j < strlen(nt[rhsIndex].firstSet); j++) {
-                if (nt[rhsIndex].firstSet[j] != '#') {
-                    addToFirstSet(nt, prod.lhs, nt[rhsIndex].firstSet[j], nonTerminalCount);
+                if(nt[rhsIndex].firstSet[j] =='#'){
+                    markEpsilon(nt, prod.lhs, nonTerminalCount);
                 }
+                addToFirstSet(nt, prod.lhs, nt[rhsIndex].firstSet[j], nonTerminalCount);
             }
             if (nt[rhsIndex].hasEpsilon) {
                 parseProduction(prod, nt, nonTerminalCount, index + 1);
@@ -145,15 +144,16 @@ void addToFollowSet(nonTerminal nt[], char lhs, char rhs, int count) {
 
 void parseFollow(production prod[], nonTerminal nt[], int nonTerminalCount, int prodIndex, int matchNonTermIndex, int jumpIndex) {
     if (prod[prodIndex].rhs[matchNonTermIndex + jumpIndex] == '\0') {
-        int lhsIndex = findNonTerminalIndex(nt, nonTerminalCount, prod[prodIndex].lhs);
-        int rhsIndex = findNonTerminalIndex(nt, nonTerminalCount, prod[prodIndex].rhs[matchNonTermIndex]);
-        if (rhsIndex != -1) {
-            for (int j = 0; j < strlen(nt[lhsIndex].followSet); j++) {
-                if (nt[lhsIndex].followSet[j] != '#') {
-                    addToFollowSet(nt, prod[prodIndex].rhs[matchNonTermIndex], nt[lhsIndex].followSet[j], nonTerminalCount);
+            int lhsIndex = findNonTerminalIndex(nt, nonTerminalCount, prod[prodIndex].lhs);
+            int rhsIndex = findNonTerminalIndex(nt, nonTerminalCount, prod[prodIndex].rhs[matchNonTermIndex]);
+            if (rhsIndex != -1) {
+                for (int j = 0; j < strlen(nt[lhsIndex].followSet); j++) {
+                    if (nt[lhsIndex].followSet[j] != '#') {
+                        addToFollowSet(nt, prod[prodIndex].rhs[matchNonTermIndex], nt[lhsIndex].followSet[j], nonTerminalCount);
+                    }
                 }
             }
-        }
+        
     } else {
         if (isNonTerminal(prod[prodIndex].rhs[matchNonTermIndex + jumpIndex])) {
             int rhsIndex = findNonTerminalIndex(nt, nonTerminalCount, prod[prodIndex].rhs[matchNonTermIndex + jumpIndex]);
@@ -164,6 +164,7 @@ void parseFollow(production prod[], nonTerminal nt[], int nonTerminalCount, int 
             }
             if (nt[rhsIndex].hasEpsilon) {
                 parseFollow(prod, nt, nonTerminalCount, prodIndex, matchNonTermIndex, jumpIndex + 1);
+                
             }
         } else {
             addToFollowSet(nt, prod[prodIndex].rhs[matchNonTermIndex], prod[prodIndex].rhs[matchNonTermIndex + jumpIndex], nonTerminalCount);
