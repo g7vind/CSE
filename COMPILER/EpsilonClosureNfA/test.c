@@ -56,13 +56,10 @@ void main() {
 									printf("\t\t-> CONFIRM %d-e-%d\n", l, m);
 									nfa[i][j][m] = 1;
 								}
-								// else printf("\t\t-> FAILURE %d-e-%d\n", l, m);
 							}
 						}
-						// else printf("\t-> FAILURE %d-%c-%d\n", k, inp[j], l);
 					}
 				}
-				// else printf("-> FAILURE %d-e-%d\n", i, k);
 			}
 		}
 	}
